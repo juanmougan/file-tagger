@@ -9,7 +9,6 @@ class HeaderParserTest < Minitest::Test
     file_contents = header_parser.lookup("files/class_with_valid_header.rb")
     assert file_contents != nil
     refute_empty file_contents
-    puts "file_contents: #{file_contents}"
     assert file_contents[0] == "file-tagger-header:"
   end
 
@@ -19,8 +18,15 @@ class HeaderParserTest < Minitest::Test
     assert header_parser.detect_header?(valid_file)
   end
 
-  def given_parser_when_header_then_return_it
+  def test_given_parser_when_header_then_return_it
     header_parser = HeaderParser.new
     assert header_parser.header == "# file-tagger-header:"
+  end
+
+  def test_given_string_when_strip_comment_token_then_return_stripped_string
+    header_parser = HeaderParser.new
+    assert header_parser.strip_comment_token("# blah") == "blah"
+    assert header_parser.strip_comment_token("#bang!") == "bang!"
+    assert header_parser.strip_comment_token("boo#") == "boo#"
   end
 end
