@@ -34,5 +34,9 @@ class HeaderParserTest < Minitest::Test
     header_parser = HeaderParser.new
     header = header_parser.parse("files/class_with_valid_header.rb")
     assert header != nil
+    assert header["file-tagger-header"] != nil
+    assert header["file-tagger-header"]["keywords"] != nil
+    assert header["file-tagger-header"]["keywords"][0] == "arrays"
+    assert header["file-tagger-header"]["keywords"][1] == "sorting"
   end
 end
