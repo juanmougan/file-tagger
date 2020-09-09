@@ -5,15 +5,24 @@ class HeaderParser
     file = File.open(file_name)
     header_contents = []
     if detect_header?(file)
-      header_contents = file.take_while {|l| l.start_with? comment}
-      header_contents = header_contents.map { |l| l.chomp }
+      header_contents = select_comments_until_comment_end file
+      header_contents = remove_newlines header_contents
     end
     header_contents
   end
 
+  # TODO if this becomes a Template Method, other implementations (e.g. Java) may differ
+  def select_comments_until_comment_end file
+    file.take_while {|l| l.start_with? comment}
+  end
+
+  def remove_newlines lines
+    lines.map { |l| l.chomp }
+  end
+
   def detect_header?(file)
     found = file.readline.chomp == header
-    file.rewind
+    file.rewind     # I don't want to move the pointer
     found
   end
 
