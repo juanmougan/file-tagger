@@ -1,4 +1,11 @@
+require 'yaml'
+
 class HeaderParser
+  def parse file_name
+    header_contents = lookup file_name
+    YAML.load(header_contents.join "\n")
+  end
+  
   def lookup file_name
     file = File.open(file_name)
     header_contents = []

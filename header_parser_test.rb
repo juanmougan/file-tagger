@@ -29,4 +29,10 @@ class HeaderParserTest < Minitest::Test
     assert header_parser.strip_comment_token("#bang!") == "bang!"
     assert header_parser.strip_comment_token("boo#") == "boo#"
   end
+
+  def test_given_file_with_header_when_parse_then_return_header
+    header_parser = HeaderParser.new
+    header = header_parser.parse("files/class_with_valid_header.rb")
+    assert header != nil
+  end
 end
