@@ -22,6 +22,29 @@ class HeaderParser
     file.take_while {|l| l.start_with? comment}
   end
 
+  def forward_file_pointer_after_header file
+    if detect_header?(file)
+      puts "header detected"
+      #loop do
+      #  l = file.readline
+      #  puts "read: #{l}"
+      #  break if !l.start_with? comment
+      #end
+      #took = select_comments_until_comment_end file
+      #puts "took: #{took}"
+      #puts "read: #{took.size} lines"
+      took = select_comments_until_comment_end file
+      file.rewind
+      skip_n_lines_from took.size, file
+      #puts "next line: #{file.readline}"
+    end
+    file
+  end
+
+  def skip_n_lines_from n, file
+    n.times.map { file.readline }
+  end
+
   def remove_newlines lines
     lines.map { |l| l.chomp }
   end

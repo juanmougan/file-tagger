@@ -39,4 +39,18 @@ class HeaderParserTest < Minitest::Test
     assert header["file-tagger-header"]["keywords"][0] == "arrays"
     assert header["file-tagger-header"]["keywords"][1] == "sorting"
   end
+
+  def test_given_file_with_valid_header_when_forward_file_pointer_after_header_then_return_next_line
+    header_parser = HeaderParser.new
+    valid_header_file = "files/class_with_valid_header.rb"
+    file_with_header = header_parser.forward_file_pointer_after_header File.open(valid_header_file, 'r')
+    assert file_with_header.readline.chomp == "class Valid"
+  end
+
+  def test_given_file_without_header_when_forward_file_pointer_after_header_then_return_next_line
+    header_parser = HeaderParser.new
+    without_header_file = "files/class_without_header.rb"
+    file_without_header = header_parser.forward_file_pointer_after_header File.open(without_header_file, 'r')
+    assert file_without_header.readline.chomp == "class Without"
+  end
 end
