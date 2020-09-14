@@ -1,6 +1,7 @@
 require 'yaml'
+require_relative 'commentable_file'
 
-class HeaderParser
+class HeaderParser include CommentableFile
   def parse file_name
     header_contents = lookup file_name
     YAML.load(header_contents.join "\n")
@@ -17,45 +18,12 @@ class HeaderParser
     header_contents
   end
 
-  # TODO if this becomes a Template Method, other implementations (e.g. Java) may differ
-  def select_comments_until_comment_end file
-    file.take_while {|l| l.start_with? comment}
-  end
-
-  def forward_file_pointer_after_header file
-    if detect_header?(file)
-      puts "header detected"
-      took = select_comments_until_comment_end file
-      file.rewind
-      skip_n_lines_from took.size, file
-    end
-    file
-  end
-
-  def skip_n_lines_from n, file
-    n.times.map { file.readline }
-  end
-
   def remove_newlines lines
     lines.map { |l| l.chomp }
   end
 
   def strip_comments_from_line_start lines
     lines.map { |l| strip_comment_token l }
-  end
-
-  def detect_header?(file)
-    found = file.readline.chomp == header
-    file.rewind     # I don't want to move the pointer
-    found
-  end
-
-  def comment
-    "# "
-  end
-
-  def header
-    "#{comment}file-tagger-header:"
   end
 
   def strip_comment_token line

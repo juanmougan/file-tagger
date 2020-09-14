@@ -40,6 +40,7 @@ class HeaderParserTest < Minitest::Test
     assert header["file-tagger-header"]["keywords"][1] == "sorting"
   end
 
+  # TODO this belongs to the module now, let's move it
   def test_given_file_with_valid_header_when_forward_file_pointer_after_header_then_return_next_line
     header_parser = HeaderParser.new
     valid_header_file = "files/class_with_valid_header.rb"
