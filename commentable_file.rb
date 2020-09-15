@@ -7,9 +7,7 @@ module CommentableFile
   
   def forward_file_pointer_after_header file
     if detect_header?(file)
-      puts "header detected"
       took = select_comments_until_comment_end file
-      puts "took: #{took}"
       file.rewind
       skip_n_lines_from took.size, file
     end

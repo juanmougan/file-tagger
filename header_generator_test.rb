@@ -34,17 +34,13 @@ class HeaderGeneratorTest < Minitest::Test
     header_generator = HeaderGenerator.new
     header = header_generator.serialize_commented_keywords valid_keywords_structure
     file_with_header = header_generator.create_or_update_header(self.file_without_header, header)
-    #puts "file_with_header: #{file_with_header.read}" # TODO this is empty
-    #puts "header: #{header}"
     assert file_starts_with(file_with_header, header)
   end
 
   def file_starts_with(file, beginning)
     #"# ---\n# file-tagger-header:\n# - arrays\n# - sorting"
     commented_lines = file.take_while {|l| l.start_with? "# "}.map {|l| l.chomp}  # TODO move constants to a module
-    puts "commented_lines: #{commented_lines}"
     beginning_lines = beginning.split("\n")
-    puts "beginning_lines: #{beginning_lines}"
     commented_lines == beginning_lines
   end
 
