@@ -20,7 +20,6 @@ class HeaderGeneratorTest < Minitest::Test
     self.file_without_header.unlink
   end
   
-  # TODO add "test" prefix to the name, then fix
   def test_given_hash_when_serialize_commented_keywords_then_return_yaml_string_prepended_by_comments
     header_generator = HeaderGenerator.new
     yaml = header_generator.serialize_commented_keywords valid_keywords_structure
